@@ -35,4 +35,4 @@ const PRODUCTS = [
     "subtitle": "粗體原線公｜實拍影片④",
     "desc": "1公、1緞母、1短母"
   }
-];\n
+];
