@@ -1,126 +1,273 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>大頭仔 & 魚你有約｜孔雀魚室</title>
 <style>
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;background:#071522;color:#eef7ff}
-a{text-decoration:none;color:inherit}.top{background:#031019;color:#bfe8f6;text-align:center;padding:8px 14px;font-size:13px}
-header{position:sticky;top:0;z-index:20;background:rgba(4,17,27,.94);backdrop-filter:blur(12px);border-bottom:1px solid #183446}
-.nav{max-width:1180px;margin:auto;display:flex;align-items:center;gap:22px;padding:14px 18px}.brand{font-weight:900;font-size:21px;white-space:nowrap}.brand small{display:block;color:#71d8ee;font-size:10px;letter-spacing:2px}
-nav{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px}nav a{color:#d7eaf2}nav a:hover{color:#75e1f2}
-.cartBtn{border:1px solid #2b6077;padding:8px 13px;border-radius:999px;background:#0c2635}
-.hero{max-width:1180px;margin:0 auto;padding:70px 18px 55px;display:grid;grid-template-columns:1.05fr .95fr;gap:38px;align-items:center}
-.kicker{color:#73dced;letter-spacing:3px;font-size:13px;font-weight:800}.hero h1{font-size:clamp(38px,6vw,70px);line-height:1.03;margin:12px 0}.hero h1 span{color:#74e1f1}.hero p{color:#a9c3ce;line-height:1.9;max-width:620px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-block;padding:12px 18px;border-radius:12px;font-weight:800;border:1px solid #31596b}.primary{background:#6fdceb;color:#04202b}.secondary{background:#0d2837}
-.heroArt{min-height:390px;border-radius:28px;background:radial-gradient(circle at 70% 25%,#1b7891 0,#0d3347 36%,#071522 72%);border:1px solid #245166;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;box-shadow:0 25px 80px #0008}
-.heroArt .fish{font-size:110px;filter:drop-shadow(0 10px 20px #0008)}.heroArt h2{margin:10px 0 4px;font-size:30px}.heroArt p{margin:0;color:#9ed8e5}
-section{max-width:1180px;margin:auto;padding:52px 18px}.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:24px}.eyebrow{color:#70dced;font-size:12px;letter-spacing:2px;font-weight:900}.sectionHead h2{margin:6px 0 0;font-size:34px}.filters{display:flex;gap:8px;flex-wrap:wrap}.chip{background:#0b2432;color:#cde4ed;border:1px solid #244b5c;padding:8px 13px;border-radius:999px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:#0a1d2a;border:1px solid #1c4051;border-radius:20px;overflow:hidden}.videoBox{background:#000;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden}.videoBox video{width:100%;height:100%;object-fit:cover;object-position:center;background:#000;display:block;transform:scale(1.14);transform-origin:center center}.cardBody{padding:18px}.tag{color:#70dced;font-size:12px}.card h3{margin:6px 0;font-size:20px}.desc{color:#9eb8c3;font-size:14px}.price{font-size:24px;font-weight:900;margin:14px 0}.stock{font-size:13px;color:#91c7d3}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.qty{display:flex;align-items:center;border:1px solid #315667;border-radius:10px;overflow:hidden}.qty button{background:#102c3a;color:#fff;border:0;width:34px;height:34px;font-size:18px}.qty span{width:34px;text-align:center}.row .wide{flex:1;min-width:120px}
-button{font:inherit;cursor:pointer}.buy{border:0;border-radius:10px;padding:9px 13px;background:#70dced;color:#04202b;font-weight:900}.add{border:1px solid #376578;border-radius:10px;padding:9px 13px;background:#0d2837;color:#e7f9ff;font-weight:800}
-.videoStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.mini{background:#0b202d;border:1px solid #1d4151;border-radius:16px;padding:14px}.mini video{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:#000}.mini b{display:block;margin-top:9px}
-.cart{max-width:1180px;margin:0 auto 50px;padding:0 18px}.cartBox{background:#091e2b;border:1px solid #214858;border-radius:20px;padding:20px}.cartLine{display:flex;justify-content:space-between;gap:15px;padding:10px 0;border-bottom:1px solid #183746}.cartLine:last-child{border-bottom:0}.cartTotal{font-size:23px;font-weight:900;text-align:right;margin-top:14px}.checkout{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.checkout input,.checkout select{width:100%;padding:12px;border-radius:10px;border:1px solid #315667;background:#061721;color:#fff}.full{grid-column:1/-1}.submit{width:100%;padding:13px;border:0;border-radius:11px;background:#70dced;color:#04202b;font-weight:900}
-footer{border-top:1px solid #173847;text-align:center;color:#7f9eaa;padding:30px 18px}
-@media(max-width:800px){nav{display:none}.hero{grid-template-columns:1fr;padding-top:42px}.heroArt{min-height:280px}.grid{grid-template-columns:1fr}.videoStrip{grid-template-columns:1fr 1fr}.checkout{grid-template-columns:1fr}.sectionHead{display:block}.filters{margin-top:14px}}
+*{box-sizing:border-box}
+body{margin:0;background:#061522;color:#fff;font-family:Arial,"Noto Sans TC",sans-serif}
+header{padding:24px 18px;text-align:center;background:linear-gradient(135deg,#071827,#103b58);position:sticky;top:0;z-index:20}
+h1{margin:0;font-size:27px}
+header p{color:#9fd8f5;margin:8px 0 0}
+.cartBtn{position:absolute;right:16px;top:20px;border:0;border-radius:999px;background:#ffd76a;color:#061522;font-weight:800;padding:11px 15px;cursor:pointer}
+.badge{display:inline-flex;min-width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:#e53935;color:#fff;font-size:12px;margin-left:5px}
+main{max-width:1100px;margin:auto;padding:25px 15px}
+.sectionTitle{text-align:center;margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:#0d2638;border:1px solid #24516d;border-radius:18px;overflow:hidden;box-shadow:0 8px 25px #0008}
+.card video{width:100%;display:block;background:#000;aspect-ratio:9/16}
+.info{padding:18px}
+h2{margin:0 0 8px;color:#fff;font-size:20px}
+.sub{color:#8ed5f5;font-size:14px}
+.price{font-size:25px;color:#ffd76a;font-weight:bold;margin:12px 0}
+.desc{color:#c9d9e2;font-size:14px;line-height:1.7}
+.stock{margin:8px 0;color:#9ff0bd;font-weight:700}
+.stock.low{color:#ffd76a}
+.stock.out{color:#ff8b8b}
+.qtyRow{display:flex;align-items:center;gap:10px;margin:12px 0}
+.qtyBtn{width:38px;height:38px;border:0;border-radius:9px;background:#245c91;color:#fff;font-size:22px;cursor:pointer}
+.qty{min-width:35px;text-align:center;font-weight:800}
+.btn{display:block;width:100%;border:0;text-align:center;text-decoration:none;margin-top:10px;padding:12px;border-radius:10px;background:#18a96b;color:white;font-weight:bold;cursor:pointer}
+.buy{background:#e6a91a;color:#071827}
+.phone{background:#245c91}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+footer{text-align:center;padding:30px 15px;color:#91a9b8}
+.overlay{display:none;position:fixed;inset:0;background:#0009;z-index:50}
+.overlay.show{display:block}
+.panel{position:absolute;right:0;top:0;height:100%;width:min(460px,94vw);background:#0b1e2c;padding:20px;overflow:auto;box-shadow:-10px 0 30px #0008}
+.panelHead{display:flex;justify-content:space-between;align-items:center}
+.close{border:0;background:#314b5d;color:#fff;border-radius:8px;padding:8px 12px;font-size:20px}
+.cartItem{border:1px solid #31576e;border-radius:12px;padding:12px;margin:10px 0}
+.cartItemTop{display:flex;justify-content:space-between;gap:10px}
+.cartQty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.total{font-size:23px;color:#ffd76a;font-weight:800;margin:18px 0}
+.form label{display:block;color:#bcd0dc;margin:10px 0 5px}
+.form input,.form textarea{width:100%;border:1px solid #31576e;background:#071827;color:#fff;border-radius:9px;padding:11px;font-size:16px}
+.form textarea{min-height:80px;resize:vertical}
+.note{font-size:13px;color:#9fb3bf;line-height:1.6}
+.empty{padding:30px 5px;text-align:center;color:#9fb3bf}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  h1{font-size:23px;padding-right:65px}
+  .cartBtn{top:15px}
+}
 </style>
 </head>
 <body>
-<div class="top">🐟 精選孔雀魚・實拍影片・安心挑魚　｜　📞 0981-212-033</div>
-<header><div class="nav">
-  <a class="brand" href="#home">大頭仔 & 魚你有約<small>GUPPY STUDIO</small></a>
-  <nav>
-    <a href="#guppy">孔雀魚</a><a href="#videos">魚缸美景</a><a href="#knowledge">養魚知識</a><a href="#contact">聯絡我們</a><a class="cartBtn" href="#cart">購物車 <span id="cartCount">0</span></a>
-  </nav>
-</div></header>
 
-<main id="home">
-<section class="hero">
-  <div>
-    <div class="kicker">Guppy • Aquarium • Life</div>
-    <h1>讓每一尾孔雀魚<br><span>成為水中的主角</span></h1>
-    <p>精選孔雀魚、實拍影片與水族生活。想看哪一組、詢問價格或預約保留，都可以直接聯絡我們。</p>
-    <div class="actions"><a class="btn primary" href="#guppy">🐟 查看孔雀魚</a><a class="btn secondary" href="tel:09812120333">📞 電話洽詢</a><a class="btn secondary" href="https://line.me/ti/p/~09812120333" target="_blank">💬 LINE 洽詢</a></div>
-  </div>
-  <div class="heroArt"><div><div class="fish">🐟 🐠</div><h2>大頭仔 魚你有約</h2><p>孔雀魚室｜GUPPY STUDIO</p></div></div>
-</section>
+<header>
+  <h1>🐠 大頭仔 & 魚你有約</h1>
+  <p>孔雀魚室｜精品種魚・實拍影片</p>
+  <button class="cartBtn" onclick="openCart()">🛒 購物車 <span id="cartCount" class="badge">0</span></button>
+</header>
 
-<section id="guppy">
-  <div class="sectionHead"><div><div class="eyebrow">FEATURED GUPPIES</div><h2>精選孔雀魚</h2></div><div class="filters"><span class="chip">全部</span><span class="chip">藍系</span><span class="chip">紅系</span><span class="chip">特殊品系</span></div></div>
-  <div class="grid" id="products"></div>
-</section>
-
-<section id="videos">
-  <div class="sectionHead"><div><div class="eyebrow">REAL VIDEOS</div><h2>實拍影片</h2></div></div>
-  <div class="videoStrip" id="videoStrip"></div>
-</section>
-
-<section id="knowledge">
-  <div class="sectionHead"><div><div class="eyebrow">AQUARIUM LIFE</div><h2>養魚小知識</h2></div></div>
-  <div class="grid">
-    <div class="card"><div class="cardBody"><div class="tag">01</div><h3>新魚入缸</h3><p class="desc">新魚到家後先對溫、對水，再逐步入缸，降低環境變化造成的緊迫。</p></div></div>
-    <div class="card"><div class="cardBody"><div class="tag">02</div><h3>穩定水質</h3><p class="desc">固定觀察水溫與水質，避免一次大量換水；餵食以吃完為原則。</p></div></div>
-  </div>
-</section>
-
-<section id="cart" class="cart">
-  <div class="sectionHead"><div><div class="eyebrow">SHOPPING CART</div><h2>購物車</h2></div></div>
-  <div class="cartBox">
-    <div id="cartItems">購物車目前是空的。</div>
-    <div class="cartTotal" id="cartTotal">合計 NT$0</div>
-    <div class="checkout">
-      <input id="customerName" placeholder="姓名">
-      <input id="customerPhone" placeholder="電話">
-      <select id="delivery" onchange="renderCart()"><option value="宅配">宅配｜1件 NT$150，2件以上 NT$200</option><option value="面交">面交｜運費 NT$0</option></select>
-      <input class="full" id="customerNote" placeholder="備註／想詢問的魚況">
-      <button class="submit full" onclick="submitOrder()">💬 送出訂單到 LINE</button>
-    </div>
-  </div>
-</section>
+<main>
+  <h2 class="sectionTitle">🔥 種魚商品</h2>
+  <div id="products" class="grid"></div>
 </main>
 
-<footer id="contact">大頭仔 & 魚你有約｜孔雀魚室　｜　電話：0981-212-033　｜　<a href="tel:09812120333">立即聯絡</a><br><small>商品管理請開啟 admin.html</small></footer>
+<footer>
+  大頭仔 & 魚你有約｜孔雀魚室<br>
+  LINE：098121230333　電話：0981212303
+</footer>
 
-<script src="products.js?v=2"></script>
+<div id="cartOverlay" class="overlay" onclick="if(event.target===this)closeCart()">
+  <aside class="panel">
+    <div class="panelHead">
+      <h2>🛒 購物車</h2>
+      <button class="close" onclick="closeCart()">×</button>
+    </div>
+    <div id="cartItems"></div>
+    <div id="cartSummary"></div>
+
+    <div id="checkoutBox" class="form" style="display:none">
+      <h2>🧾 填寫購買資料</h2>
+      <label>姓名</label>
+      <input id="buyerName" placeholder="請輸入姓名">
+      <label>電話</label>
+      <input id="buyerPhone" type="tel" placeholder="請輸入電話">
+      <label>LINE 名稱／ID（可選）</label>
+      <input id="buyerLine" placeholder="方便聯絡即可">
+      <label>備註</label>
+      <textarea id="buyerNote" placeholder="例如：希望何時聯絡、其他需求"></textarea>
+      <p class="note">按下「送出訂單」後，會整理訂單內容並開啟 LINE，方便你直接與店家確認。這個 GitHub Pages 版本目前不含信用卡／第三方金流。</p>
+      <button class="btn buy" onclick="submitOrder()">🛍️ 送出訂單</button>
+    </div>
+  </aside>
+</div>
+
+<script src="products.js"></script>
 <script>
-let cart=JSON.parse(localStorage.getItem("daitouguppy_cart")||"[]");
-const money=n=>"NT$"+Number(n).toLocaleString("zh-TW");
-function save(){localStorage.setItem("daitouguppy_cart",JSON.stringify(cart))}
-function updateCount(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0)}
-function setQty(id,d){const x=cart.find(x=>x.id===id);if(!x)return;const p=PRODUCTS.find(p=>p.id===id);x.qty=Math.max(1,Math.min(p.stock,x.qty+d));save();renderCart();updateCount()}
-function add(id){const p=PRODUCTS.find(p=>p.id===id);if(!p)return;const x=cart.find(x=>x.id===id);if(x)x.qty=Math.min(p.stock,x.qty+1);else cart.push({id,qty:1});save();renderCart();updateCount();location.hash="cart"}
-function buy(id){cart=[];add(id)}
-function render(){
- document.getElementById("products").innerHTML=PRODUCTS.map(p=>`
- <article class="card">
-  <div class="videoBox"><video controls playsinline preload="metadata" src="${p.video}"></video></div>
-  <div class="cardBody"><div class="tag">${p.subtitle}</div><h3>${p.name}</h3><div class="desc">${p.desc}</div><div class="price">${money(p.price)}</div><div class="stock">庫存 ${p.stock} 組</div>
-  <div class="row" style="margin-top:12px"><button class="add wide" onclick="add(${p.id})">加入購物車</button><button class="buy" onclick="buy(${p.id})">立即購買</button></div></div>
- </article>`).join("");
- document.getElementById("videoStrip").innerHTML=PRODUCTS.map(p=>`<div class="mini"><video controls playsinline preload="metadata" src="${p.video}"></video><b>${p.name}</b><small>${p.subtitle}</small></div>`).join("");
- renderCart();updateCount();
+const box = document.getElementById("products");
+const products = window.PRODUCTS || [];
+let cart = JSON.parse(localStorage.getItem("guppyCart") || "{}");
+
+function money(n){ return "NT$" + Number(n).toLocaleString("zh-TW"); }
+function saveCart(){ localStorage.setItem("guppyCart", JSON.stringify(cart)); updateCartCount(); }
+
+function cartQty(id){ return Number(cart[id] || 0); }
+
+function addToCart(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const next = cartQty(id) + 1;
+  if(next > Number(p.stock || 0)){ alert("庫存不足，目前最多可購買 " + p.stock + " 組。"); return; }
+  cart[id] = next;
+  saveCart();
+  renderProducts();
 }
-function getShippingFee(){
- if(document.getElementById("delivery").value==="面交")return 0;
- const q=cart.reduce((s,x)=>s+x.qty,0); return q===0?0:(q===1?150:200);
+
+function changeQty(id, delta){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const next = cartQty(id) + delta;
+  if(next <= 0) delete cart[id];
+  else if(next <= Number(p.stock || 0)) cart[id] = next;
+  else { alert("已達目前庫存上限：" + p.stock); return; }
+  saveCart();
+  renderProducts();
+  renderCart();
 }
+
+function removeItem(id){
+  delete cart[id];
+  saveCart();
+  renderProducts();
+  renderCart();
+}
+
+function updateCartCount(){
+  const count = Object.values(cart).reduce((a,b)=>a+Number(b),0);
+  document.getElementById("cartCount").textContent = count;
+}
+
+function renderProducts(){
+  box.innerHTML = "";
+  products.forEach(p => {
+    const q = cartQty(p.id);
+    const stock = Number(p.stock || 0);
+    const remain = Math.max(stock - q, 0);
+    const stockClass = stock === 0 ? "out" : (remain <= 2 ? "low" : "");
+    box.innerHTML += `
+      <article class="card">
+        <video controls playsinline preload="metadata">
+          <source src="${p.videos && p.videos[0] ? p.videos[0] : ""}" type="video/mp4">
+        </video>
+        <div class="info">
+          <h2>${p.emoji || "🐠"} ${p.name}</h2>
+          <div class="sub">${p.subtitle || ""}</div>
+          <div class="price">${money(p.price)}</div>
+          <div class="desc">${p.desc || "精品孔雀魚種魚，請依實拍影片判斷魚隻表現。"}</div>
+          <div class="stock ${stockClass}">
+            📦 庫存：${stock === 0 ? "售罄" : remain + " 組"}
+          </div>
+          <div class="qtyRow">
+            <button class="qtyBtn" onclick="changeQty(${p.id},-1)">−</button>
+            <span class="qty">${q}</span>
+            <button class="qtyBtn" onclick="changeQty(${p.id},1)" ${q >= stock ? "disabled" : ""}>＋</button>
+            <span class="note">購物車數量</span>
+          </div>
+          <button class="btn" onclick="addToCart(${p.id})" ${stock === 0 || q >= stock ? "disabled" : ""}>🛒 加入購物車</button>
+          <button class="btn buy" onclick="buyNow(${p.id})" ${stock === 0 ? "disabled" : ""}>🛍️ 立即購買</button>
+          <a class="btn" href="https://line.me/ti/p/~098121230333">LINE 詢問 ${p.name}</a>
+          <a class="btn phone" href="tel:0981212303">📞 電話詢問</a>
+        </div>
+      </article>`;
+  });
+  updateCartCount();
+}
+
+function buyNow(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  cart[id] = Math.min(cartQty(id) + 1, Number(p.stock || 0));
+  saveCart();
+  openCart();
+  showCheckout();
+  renderProducts();
+}
+
+function cartData(){
+  return Object.entries(cart)
+    .map(([id,q]) => {
+      const p = products.find(x => x.id === Number(id));
+      return p ? {p, q:Number(q)} : null;
+    })
+    .filter(Boolean);
+}
+
+function cartTotal(){
+  return cartData().reduce((sum,x)=>sum + x.p.price*x.q,0);
+}
+
 function renderCart(){
- const box=document.getElementById("cartItems");
- if(!cart.length){box.innerHTML="購物車目前是空的。";document.getElementById("cartTotal").textContent="合計 NT$0";return}
- let subtotal=0;
- box.innerHTML=cart.map(x=>{const p=PRODUCTS.find(p=>p.id===x.id);const line=p.price*x.qty;subtotal+=line;return `<div class="cartLine"><div><b>${p.name}</b><br><small>${money(p.price)} × ${x.qty}</small></div><div class="row"><div class="qty"><button onclick="setQty(${p.id},-1)">−</button><span>${x.qty}</span><button onclick="setQty(${p.id},1)">＋</button></div><b>${money(line)}</b></div></div>`}).join("");
- document.getElementById("cartTotal").textContent=`商品 ${money(subtotal)}＋運費 ${money(getShippingFee())}＝ ${money(subtotal+getShippingFee())}`;
+  const items = cartData();
+  const wrap = document.getElementById("cartItems");
+  const summary = document.getElementById("cartSummary");
+  if(!items.length){
+    wrap.innerHTML = '<div class="empty">購物車目前是空的 🐠</div>';
+    summary.innerHTML = "";
+    document.getElementById("checkoutBox").style.display = "none";
+    return;
+  }
+  wrap.innerHTML = items.map(x => `
+    <div class="cartItem">
+      <div class="cartItemTop">
+        <strong>${x.p.emoji || "🐠"} ${x.p.name}</strong>
+        <button class="close" onclick="removeItem(${x.p.id})">🗑️</button>
+      </div>
+      <div class="sub">${money(x.p.price)} × ${x.q} = ${money(x.p.price*x.q)}</div>
+      <div class="cartQty">
+        <button class="qtyBtn" onclick="changeQty(${x.p.id},-1)">−</button>
+        <b>${x.q}</b>
+        <button class="qtyBtn" onclick="changeQty(${x.p.id},1)">＋</button>
+      </div>
+    </div>`).join("");
+  summary.innerHTML = `
+    <div class="total">合計：${money(cartTotal())}</div>
+    <button class="btn buy" onclick="showCheckout()">🛍️ 前往結帳</button>`;
 }
+
+function openCart(){
+  document.getElementById("cartOverlay").classList.add("show");
+  renderCart();
+}
+function closeCart(){ document.getElementById("cartOverlay").classList.remove("show"); }
+function showCheckout(){
+  if(!cartData().length) return;
+  document.getElementById("checkoutBox").style.display = "block";
+  renderCart();
+  document.getElementById("checkoutBox").scrollIntoView({behavior:"smooth"});
+}
+
 function submitOrder(){
- if(!cart.length){alert("購物車是空的");return}
- const name=document.getElementById("customerName").value.trim(),phone=document.getElementById("customerPhone").value.trim(),note=document.getElementById("customerNote").value.trim(),delivery=document.getElementById("delivery").value;
- if(!name||!phone){alert("請先填寫姓名與電話");return}
- let text="大頭仔&魚你有約 孔雀魚室 訂單%0A%0A";
- cart.forEach(x=>{const p=PRODUCTS.find(p=>p.id===x.id);text+=encodeURIComponent(p.name)+" × "+x.qty+"%0A"});
- text+=encodeURIComponent("%0A姓名："+name+"%0A電話："+phone+"%0A配送："+delivery+"%0A備註："+note);
- window.open("https://line.me/ti/p/~09812120333","_blank");
+  const name = document.getElementById("buyerName").value.trim();
+  const phone = document.getElementById("buyerPhone").value.trim();
+  const line = document.getElementById("buyerLine").value.trim();
+  const note = document.getElementById("buyerNote").value.trim();
+  if(!name || !phone){ alert("請先填寫姓名與電話。"); return; }
+
+  const lines = cartData().map(x => `🐠 ${x.p.name} × ${x.q} = ${money(x.p.price*x.q)}`);
+  const msg = [
+    "【孔雀魚室新訂單】",
+    "",
+    ...lines,
+    "",
+    `合計：${money(cartTotal())}`,
+    `姓名：${name}`,
+    `電話：${phone}`,
+    `LINE：${line || "未提供"}`,
+    `備註：${note || "無"}`
+  ].join("\\n");
+
+  navigator.clipboard?.writeText(msg).catch(()=>{});
+  window.open("https://line.me/ti/p/~098121230333","_blank");
+  alert("訂單內容已整理完成，並已嘗試複製到剪貼簿。請在 LINE 貼上訂單內容與店家確認。");
 }
-render();
+
+renderProducts();
+renderCart();
 </script>
 </body>
 </html>
