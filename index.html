@@ -7,65 +7,267 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#061522;color:#fff;font-family:Arial,"Noto Sans TC",sans-serif}
-header{padding:28px 18px;text-align:center;background:linear-gradient(135deg,#071827,#103b58)}
+header{padding:24px 18px;text-align:center;background:linear-gradient(135deg,#071827,#103b58);position:sticky;top:0;z-index:20}
 h1{margin:0;font-size:27px}
-header p{color:#9fd8f5;margin:10px 0 0}
+header p{color:#9fd8f5;margin:8px 0 0}
+.cartBtn{position:absolute;right:16px;top:20px;border:0;border-radius:999px;background:#ffd76a;color:#061522;font-weight:800;padding:11px 15px;cursor:pointer}
+.badge{display:inline-flex;min-width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:#e53935;color:#fff;font-size:12px;margin-left:5px}
 main{max-width:1100px;margin:auto;padding:25px 15px}
+.sectionTitle{text-align:center;margin:0 0 22px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{background:#0d2638;border:1px solid #24516d;border-radius:18px;overflow:hidden;box-shadow:0 8px 25px #0008}
 .card video{width:100%;display:block;background:#000;aspect-ratio:9/16}
 .info{padding:18px}
-h2{margin:0 0 8px;color:#fff}
+h2{margin:0 0 8px;color:#fff;font-size:20px}
 .sub{color:#8ed5f5;font-size:14px}
 .price{font-size:25px;color:#ffd76a;font-weight:bold;margin:12px 0}
 .desc{color:#c9d9e2;font-size:14px;line-height:1.7}
-.btn{display:block;text-align:center;text-decoration:none;margin-top:14px;padding:12px;border-radius:10px;background:#18a96b;color:white;font-weight:bold}
+.stock{margin:8px 0;color:#9ff0bd;font-weight:700}
+.stock.low{color:#ffd76a}
+.stock.out{color:#ff8b8b}
+.qtyRow{display:flex;align-items:center;gap:10px;margin:12px 0}
+.qtyBtn{width:38px;height:38px;border:0;border-radius:9px;background:#245c91;color:#fff;font-size:22px;cursor:pointer}
+.qty{min-width:35px;text-align:center;font-weight:800}
+.btn{display:block;width:100%;border:0;text-align:center;text-decoration:none;margin-top:10px;padding:12px;border-radius:10px;background:#18a96b;color:white;font-weight:bold;cursor:pointer}
+.buy{background:#e6a91a;color:#071827}
 .phone{background:#245c91}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 footer{text-align:center;padding:30px 15px;color:#91a9b8}
-@media(max-width:700px){.grid{grid-template-columns:1fr}h1{font-size:23px}}
+.overlay{display:none;position:fixed;inset:0;background:#0009;z-index:50}
+.overlay.show{display:block}
+.panel{position:absolute;right:0;top:0;height:100%;width:min(460px,94vw);background:#0b1e2c;padding:20px;overflow:auto;box-shadow:-10px 0 30px #0008}
+.panelHead{display:flex;justify-content:space-between;align-items:center}
+.close{border:0;background:#314b5d;color:#fff;border-radius:8px;padding:8px 12px;font-size:20px}
+.cartItem{border:1px solid #31576e;border-radius:12px;padding:12px;margin:10px 0}
+.cartItemTop{display:flex;justify-content:space-between;gap:10px}
+.cartQty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.total{font-size:23px;color:#ffd76a;font-weight:800;margin:18px 0}
+.form label{display:block;color:#bcd0dc;margin:10px 0 5px}
+.form input,.form textarea{width:100%;border:1px solid #31576e;background:#071827;color:#fff;border-radius:9px;padding:11px;font-size:16px}
+.form textarea{min-height:80px;resize:vertical}
+.note{font-size:13px;color:#9fb3bf;line-height:1.6}
+.empty{padding:30px 5px;text-align:center;color:#9fb3bf}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  h1{font-size:23px;padding-right:65px}
+  .cartBtn{top:15px}
+}
 </style>
 </head>
-
 <body>
 
 <header>
-<h1>🐠 大頭仔 & 魚你有約</h1>
-<p>孔雀魚室｜精品種魚・實拍影片</p>
+  <h1>🐠 大頭仔 & 魚你有約</h1>
+  <p>孔雀魚室｜精品種魚・實拍影片</p>
+  <button class="cartBtn" onclick="openCart()">🛒 購物車 <span id="cartCount" class="badge">0</span></button>
 </header>
 
 <main>
-<h2 style="text-align:center;margin-bottom:22px">🔥 種魚商品</h2>
-<div id="products" class="grid"></div>
+  <h2 class="sectionTitle">🔥 種魚商品</h2>
+  <div id="products" class="grid"></div>
 </main>
 
 <footer>
-大頭仔 & 魚你有約｜孔雀魚室<br>
-LINE：098121230333　電話：0981212303
+  大頭仔 & 魚你有約｜孔雀魚室<br>
+  LINE：098121230333　電話：0981212303
 </footer>
+
+<div id="cartOverlay" class="overlay" onclick="if(event.target===this)closeCart()">
+  <aside class="panel">
+    <div class="panelHead">
+      <h2>🛒 購物車</h2>
+      <button class="close" onclick="closeCart()">×</button>
+    </div>
+    <div id="cartItems"></div>
+    <div id="cartSummary"></div>
+
+    <div id="checkoutBox" class="form" style="display:none">
+      <h2>🧾 填寫購買資料</h2>
+      <label>姓名</label>
+      <input id="buyerName" placeholder="請輸入姓名">
+      <label>電話</label>
+      <input id="buyerPhone" type="tel" placeholder="請輸入電話">
+      <label>LINE 名稱／ID（可選）</label>
+      <input id="buyerLine" placeholder="方便聯絡即可">
+      <label>備註</label>
+      <textarea id="buyerNote" placeholder="例如：希望何時聯絡、其他需求"></textarea>
+      <p class="note">按下「送出訂單」後，會整理訂單內容並開啟 LINE，方便你直接與店家確認。這個 GitHub Pages 版本目前不含信用卡／第三方金流。</p>
+      <button class="btn buy" onclick="submitOrder()">🛍️ 送出訂單</button>
+    </div>
+  </aside>
+</div>
 
 <script src="products.js"></script>
 <script>
-const box=document.getElementById("products");
-const products=window.PRODUCTS||[];
+const box = document.getElementById("products");
+const products = window.PRODUCTS || [];
+let cart = JSON.parse(localStorage.getItem("guppyCart") || "{}");
 
-products.forEach(p=>{
-  const video=p.videos&&p.videos[0] ? p.videos[0] : "";
-  box.innerHTML+=`
-  <article class="card">
-    <video controls playsinline preload="metadata">
-      <source src="${video}" type="video/mp4">
-    </video>
-    <div class="info">
-      <h2>${p.emoji||"🐠"} ${p.name}</h2>
-      <div class="sub">${p.subtitle||""}</div>
-      <div class="price">NT$${p.price}</div>
-      <div class="desc">${p.desc||"精品孔雀魚種魚，請依實拍影片判斷魚隻表現。"}</div>
-      <a class="btn" href="https://line.me/ti/p/~098121230333">LINE 詢問 ${p.name}</a>
-      <a class="btn phone" href="tel:0981212303">📞 電話詢問</a>
-    </div>
-  </article>`;
-});
+function money(n){ return "NT$" + Number(n).toLocaleString("zh-TW"); }
+function saveCart(){ localStorage.setItem("guppyCart", JSON.stringify(cart)); updateCartCount(); }
+
+function cartQty(id){ return Number(cart[id] || 0); }
+
+function addToCart(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const next = cartQty(id) + 1;
+  if(next > Number(p.stock || 0)){ alert("庫存不足，目前最多可購買 " + p.stock + " 組。"); return; }
+  cart[id] = next;
+  saveCart();
+  renderProducts();
+}
+
+function changeQty(id, delta){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const next = cartQty(id) + delta;
+  if(next <= 0) delete cart[id];
+  else if(next <= Number(p.stock || 0)) cart[id] = next;
+  else { alert("已達目前庫存上限：" + p.stock); return; }
+  saveCart();
+  renderProducts();
+  renderCart();
+}
+
+function removeItem(id){
+  delete cart[id];
+  saveCart();
+  renderProducts();
+  renderCart();
+}
+
+function updateCartCount(){
+  const count = Object.values(cart).reduce((a,b)=>a+Number(b),0);
+  document.getElementById("cartCount").textContent = count;
+}
+
+function renderProducts(){
+  box.innerHTML = "";
+  products.forEach(p => {
+    const q = cartQty(p.id);
+    const stock = Number(p.stock || 0);
+    const remain = Math.max(stock - q, 0);
+    const stockClass = stock === 0 ? "out" : (remain <= 2 ? "low" : "");
+    box.innerHTML += `
+      <article class="card">
+        <video controls playsinline preload="metadata">
+          <source src="${p.videos && p.videos[0] ? p.videos[0] : ""}" type="video/mp4">
+        </video>
+        <div class="info">
+          <h2>${p.emoji || "🐠"} ${p.name}</h2>
+          <div class="sub">${p.subtitle || ""}</div>
+          <div class="price">${money(p.price)}</div>
+          <div class="desc">${p.desc || "精品孔雀魚種魚，請依實拍影片判斷魚隻表現。"}</div>
+          <div class="stock ${stockClass}">
+            📦 庫存：${stock === 0 ? "售罄" : remain + " 組"}
+          </div>
+          <div class="qtyRow">
+            <button class="qtyBtn" onclick="changeQty(${p.id},-1)">−</button>
+            <span class="qty">${q}</span>
+            <button class="qtyBtn" onclick="changeQty(${p.id},1)" ${q >= stock ? "disabled" : ""}>＋</button>
+            <span class="note">購物車數量</span>
+          </div>
+          <button class="btn" onclick="addToCart(${p.id})" ${stock === 0 || q >= stock ? "disabled" : ""}>🛒 加入購物車</button>
+          <button class="btn buy" onclick="buyNow(${p.id})" ${stock === 0 ? "disabled" : ""}>🛍️ 立即購買</button>
+          <a class="btn" href="https://line.me/ti/p/~098121230333">LINE 詢問 ${p.name}</a>
+          <a class="btn phone" href="tel:0981212303">📞 電話詢問</a>
+        </div>
+      </article>`;
+  });
+  updateCartCount();
+}
+
+function buyNow(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  cart[id] = Math.min(cartQty(id) + 1, Number(p.stock || 0));
+  saveCart();
+  openCart();
+  showCheckout();
+  renderProducts();
+}
+
+function cartData(){
+  return Object.entries(cart)
+    .map(([id,q]) => {
+      const p = products.find(x => x.id === Number(id));
+      return p ? {p, q:Number(q)} : null;
+    })
+    .filter(Boolean);
+}
+
+function cartTotal(){
+  return cartData().reduce((sum,x)=>sum + x.p.price*x.q,0);
+}
+
+function renderCart(){
+  const items = cartData();
+  const wrap = document.getElementById("cartItems");
+  const summary = document.getElementById("cartSummary");
+  if(!items.length){
+    wrap.innerHTML = '<div class="empty">購物車目前是空的 🐠</div>';
+    summary.innerHTML = "";
+    document.getElementById("checkoutBox").style.display = "none";
+    return;
+  }
+  wrap.innerHTML = items.map(x => `
+    <div class="cartItem">
+      <div class="cartItemTop">
+        <strong>${x.p.emoji || "🐠"} ${x.p.name}</strong>
+        <button class="close" onclick="removeItem(${x.p.id})">🗑️</button>
+      </div>
+      <div class="sub">${money(x.p.price)} × ${x.q} = ${money(x.p.price*x.q)}</div>
+      <div class="cartQty">
+        <button class="qtyBtn" onclick="changeQty(${x.p.id},-1)">−</button>
+        <b>${x.q}</b>
+        <button class="qtyBtn" onclick="changeQty(${x.p.id},1)">＋</button>
+      </div>
+    </div>`).join("");
+  summary.innerHTML = `
+    <div class="total">合計：${money(cartTotal())}</div>
+    <button class="btn buy" onclick="showCheckout()">🛍️ 前往結帳</button>`;
+}
+
+function openCart(){
+  document.getElementById("cartOverlay").classList.add("show");
+  renderCart();
+}
+function closeCart(){ document.getElementById("cartOverlay").classList.remove("show"); }
+function showCheckout(){
+  if(!cartData().length) return;
+  document.getElementById("checkoutBox").style.display = "block";
+  renderCart();
+  document.getElementById("checkoutBox").scrollIntoView({behavior:"smooth"});
+}
+
+function submitOrder(){
+  const name = document.getElementById("buyerName").value.trim();
+  const phone = document.getElementById("buyerPhone").value.trim();
+  const line = document.getElementById("buyerLine").value.trim();
+  const note = document.getElementById("buyerNote").value.trim();
+  if(!name || !phone){ alert("請先填寫姓名與電話。"); return; }
+
+  const lines = cartData().map(x => `🐠 ${x.p.name} × ${x.q} = ${money(x.p.price*x.q)}`);
+  const msg = [
+    "【孔雀魚室新訂單】",
+    "",
+    ...lines,
+    "",
+    `合計：${money(cartTotal())}`,
+    `姓名：${name}`,
+    `電話：${phone}`,
+    `LINE：${line || "未提供"}`,
+    `備註：${note || "無"}`
+  ].join("\\n");
+
+  navigator.clipboard?.writeText(msg).catch(()=>{});
+  window.open("https://line.me/ti/p/~098121230333","_blank");
+  alert("訂單內容已整理完成，並已嘗試複製到剪貼簿。請在 LINE 貼上訂單內容與店家確認。");
+}
+
+renderProducts();
+renderCart();
 </script>
-
 </body>
 </html>
