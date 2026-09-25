@@ -1,4 +1,4 @@
-const products = [
+const PRODUCTS = [
   {
     "id": 1,
     "name": "#1 自改良極血紅大背緞帶",
