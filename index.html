@@ -60,12 +60,16 @@ button:disabled{opacity:.45}
 <button class="close" onclick="closeCart()">✕</button>
 <h3>🛒 我的購物車</h3>
 <div id="cartItems"></div>
-<div class="total" id="cartTotal">合計 NT$0</div>
+<div class="total" id="cartSummary">
+<div>🧾 商品小計：<span id="cartSubtotal">NT$0</span></div>
+<div style="margin-top:8px">🛵 運費：<span id="shippingFee">NT$0</span></div>
+<div style="margin-top:10px;font-size:22px">💰 應付總額：<span id="grandTotal">NT$0</span></div>
+</div>
 <div class="form">
 <label>姓名</label><input id="customerName" placeholder="請輸入姓名">
 <label>電話</label><input id="customerPhone" type="tel" placeholder="請輸入手機或電話">
 <label>取貨方式</label>
-<select id="delivery"><option>面交</option><option>宅配</option><option>超商取貨（請先確認是否可配送）</option></select>
+<select id="delivery" onchange="renderCart()"><option>面交</option><option>宅配</option><option>超商取貨（請先確認是否可配送）</option></select>
 <label>地址／店名</label><input id="address" placeholder="宅配請填地址；超商請填店名">
 <label>備註</label><textarea id="note" rows="3" placeholder="例如：希望週末取貨、魚隻偏好等"></textarea>
 <button class="checkout" onclick="submitOrder()">📩 送出訂單並用 LINE 聯絡</button>
@@ -84,7 +88,7 @@ function save(){localStorage.setItem('guppyCart',JSON.stringify(cart));updateCou
 function updateCount(){document.getElementById('cartCount').textContent=Object.values(cart).reduce((a,b)=>a+b,0)}
 function setQty(id,d){
  const p=PRODUCTS.find(x=>String(x.id)===String(id)); if(!p)return;
- cart[id]=Math.max(0,Math.min(p.stock,(cart[id]||0)+d)); if(!cart[id])delete cart[id]; save(); render();
+ cart[id]=Math.max(0,Math.min(p.stock,(cart[id]||0)+d)); if(!cart[id])delete cart[id]; save(); render(); if(document.getElementById('overlay').style.display==='flex') renderCart();
 }
 function add(id){
  if((cart[id]||0)>=PRODUCTS.find(p=>p.id==id).stock)return;
@@ -112,24 +116,39 @@ function render(){
 }
 function openCart(){renderCart();document.getElementById('overlay').style.display='flex'}
 function closeCart(){document.getElementById('overlay').style.display='none'}
+function getShippingFee(){
+ const qty=Object.values(cart).reduce((a,b)=>a+b,0);
+ const delivery=document.getElementById('delivery')?.value||'面交';
+ if(delivery==='面交') return 0;
+ if(qty<=0) return 0;
+ if(qty===1) return 150;
+ return 200;
+}
 function renderCart(){
- const el=document.getElementById('cartItems');let total=0;
+ const el=document.getElementById('cartItems');let subtotal=0;
  const rows=Object.entries(cart).map(([id,q])=>{
   const p=PRODUCTS.find(x=>String(x.id)===String(id));if(!p)return '';
-  total+=p.price*q;
+  subtotal+=p.price*q;
   return `<div class="cartItem"><div class="cartRow"><b>${p.name}</b><span>${money(p.price*q)}</span></div>
   <div style="font-size:13px;margin-top:5px">數量：${q}　<button onclick="setQty(${id},-1);renderCart()">➖</button> <button onclick="setQty(${id},1);renderCart()">➕</button></div></div>`;
  }).join('');
  el.innerHTML=rows||'<div class="empty">購物車目前是空的</div>';
- document.getElementById('cartTotal').textContent='合計 '+money(total);
+ const shipping=getShippingFee();
+ const grandTotal=subtotal+shipping;
+ document.getElementById('cartSubtotal').textContent=money(subtotal);
+ document.getElementById('shippingFee').textContent=money(shipping);
+ document.getElementById('grandTotal').textContent=money(grandTotal);
 }
 function orderText(){
  let total=0,lines=['🐟 大頭仔 & 魚你有約｜孔雀魚室','📦 新訂單'];
  Object.entries(cart).forEach(([id,q])=>{
   const p=PRODUCTS.find(x=>String(x.id)===String(id));if(!p)return;
-  total+=p.price*q;lines.push(`${p.name} × ${q} = ${money(p.price*q)}`);
+  subtotal+=p.price*q;lines.push(`${p.name} × ${q} = ${money(p.price*q)}`);
  });
- lines.push(`💰 合計：${money(total)}`);
+ const shipping=getShippingFee();
+ lines.push(`🧾 商品小計：${money(total)}`);
+ lines.push(`🛵 運費：${money(shipping)}`);
+ lines.push(`💰 應付總額：${money(total+shipping)}`);
  lines.push(`👤 姓名：${document.getElementById('customerName').value}`);
  lines.push(`📞 電話：${document.getElementById('customerPhone').value}`);
  lines.push(`🚚 取貨：${document.getElementById('delivery').value}`);
