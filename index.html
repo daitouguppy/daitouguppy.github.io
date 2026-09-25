@@ -2,11 +2,70 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="0; url=daitouguppy-index-15.html">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>大頭仔 & 魚你有約｜孔雀魚室</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#061522;color:#fff;font-family:Arial,"Noto Sans TC",sans-serif}
+header{padding:28px 18px;text-align:center;background:linear-gradient(135deg,#071827,#103b58)}
+h1{margin:0;font-size:27px}
+header p{color:#9fd8f5;margin:10px 0 0}
+main{max-width:1100px;margin:auto;padding:25px 15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:#0d2638;border:1px solid #24516d;border-radius:18px;overflow:hidden;box-shadow:0 8px 25px #0008}
+.card video{width:100%;display:block;background:#000;aspect-ratio:9/16}
+.info{padding:18px}
+h2{margin:0 0 8px;color:#fff}
+.sub{color:#8ed5f5;font-size:14px}
+.price{font-size:25px;color:#ffd76a;font-weight:bold;margin:12px 0}
+.desc{color:#c9d9e2;font-size:14px;line-height:1.7}
+.btn{display:block;text-align:center;text-decoration:none;margin-top:14px;padding:12px;border-radius:10px;background:#18a96b;color:white;font-weight:bold}
+.phone{background:#245c91}
+footer{text-align:center;padding:30px 15px;color:#91a9b8}
+@media(max-width:700px){.grid{grid-template-columns:1fr}h1{font-size:23px}}
+</style>
 </head>
+
 <body>
-<p>正在進入大頭仔 & 魚你有約｜孔雀魚室……</p>
+
+<header>
+<h1>🐠 大頭仔 & 魚你有約</h1>
+<p>孔雀魚室｜精品種魚・實拍影片</p>
+</header>
+
+<main>
+<h2 style="text-align:center;margin-bottom:22px">🔥 種魚商品</h2>
+<div id="products" class="grid"></div>
+</main>
+
+<footer>
+大頭仔 & 魚你有約｜孔雀魚室<br>
+LINE：098121230333　電話：0981212303
+</footer>
+
+<script src="products.js"></script>
+<script>
+const box=document.getElementById("products");
+const products=window.PRODUCTS||[];
+
+products.forEach(p=>{
+  const video=p.videos&&p.videos[0] ? p.videos[0] : "";
+  box.innerHTML+=`
+  <article class="card">
+    <video controls playsinline preload="metadata">
+      <source src="${video}" type="video/mp4">
+    </video>
+    <div class="info">
+      <h2>${p.emoji||"🐠"} ${p.name}</h2>
+      <div class="sub">${p.subtitle||""}</div>
+      <div class="price">NT$${p.price}</div>
+      <div class="desc">${p.desc||"精品孔雀魚種魚，請依實拍影片判斷魚隻表現。"}</div>
+      <a class="btn" href="https://line.me/ti/p/~098121230333">LINE 詢問 ${p.name}</a>
+      <a class="btn phone" href="tel:0981212303">📞 電話詢問</a>
+    </div>
+  </article>`;
+});
+</script>
+
 </body>
 </html>
